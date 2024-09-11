@@ -22,16 +22,15 @@
 
     /* Footer Styling */
     #browser-warning {
-      display: none;
       position: fixed;
       bottom: 0;
       left: 0;
       width: 100%;
-      /* background-color: #ffcccc; */
       color: #333;
       text-align: center;
       padding: 20px;
       font-size: 16px;
+      background-color: #ffcccc;
       box-shadow: 0px -2px 6px rgba(0, 0, 0, 0.1);
       z-index: 1000;
     }
@@ -45,17 +44,21 @@
     #browser-warning a:hover {
       text-decoration: underline;
     }
+
+    [ng-cloak] {
+      display: none;
+    }
   </style>
 </head>
 <body ng-app="myApp">
 
-  <div class="content" ng-controller="MainController">
-    <h1>Welcome to My Application</h1>
-    <!-- Your AngularJS application content goes here -->
+  <!-- Main Content -->
+  <div class="content" ng-controller="MainController" ng-cloak>
+    <h1 ng-show="isChrome">Welcome to My Application</h1>
   </div>
 
   <!-- Footer with Warning Message -->
-  <footer id="browser-warning">
+  <footer id="browser-warning" ng-show="!isChrome" ng-cloak>
     This application only works in Google Chrome.
     <a href="https://www.google.com/chrome/" target="_blank">Download Chrome</a>
   </footer>
@@ -70,9 +73,12 @@
         var userAgent = navigator.userAgent.toLowerCase();
         var vendor = navigator.vendor.toLowerCase();
 
-        // Check if it's Chrome (desktop and mobile)
+        // Check if it's Chrome (desktop)
         var isChrome = userAgent.includes("chrome") && vendor.includes("google");
-        var isMobileChrome = userAgent.includes("crios") || (userAgent.includes("chrome") && /android|iphone|ipad|ipod/.test(userAgent));
+
+        // Check if it's Chrome on iOS (CriOS) or Android
+        var isChromeiOS = userAgent.includes("crios"); // Chrome on iOS
+        var isChromeAndroid = userAgent.includes("chrome") && userAgent.includes("android");
 
         // Exclude Edge, Brave, Opera, Safari, etc.
         var isEdge = userAgent.includes("edg");
@@ -80,19 +86,12 @@
         var isBrave = !!navigator.brave;
         var isSafari = userAgent.includes("safari") && !userAgent.includes("chrome");
 
-        return (isChrome || isMobileChrome) && !isEdge && !isOpera && !isBrave && !isSafari;
+        // Return true if it's Chrome on desktop, iOS, or Android, and exclude other browsers
+        return (isChrome || isChromeiOS || isChromeAndroid) && !isEdge && !isOpera && !isBrave && !isSafari;
       }
 
-      // Show warning message if not Chrome
-      function showBrowserWarning() {
-        var warningElement = document.getElementById('browser-warning');
-        if (!isChromeBrowser()) {
-          warningElement.style.display = 'block';
-        }
-      }
-
-      // Run the check on page load
-      showBrowserWarning();
+      // Assign the result of isChromeBrowser to the scope variable
+      $scope.isChrome = isChromeBrowser();
     });
   </script>
 </body>
