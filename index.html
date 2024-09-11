@@ -54,14 +54,15 @@
 
   <!-- Main Content -->
   <div class="content" ng-controller="MainController" ng-cloak>
-    <h1 ng-show="isChrome">Welcome to My Application</h1>
+    <h1>Chrome Browser : {{isChrome}}</h1>
+
   </div>
 
   <!-- Footer with Warning Message -->
-  <footer id="browser-warning" ng-show="!isChrome" ng-cloak>
+  <!-- <footer id="browser-warning" ng-show="!isChrome" ng-cloak>
     This application only works in Google Chrome.
     <a href="https://www.google.com/chrome/" target="_blank">Download Chrome</a>
-  </footer>
+  </footer> -->
 
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
   <script>
