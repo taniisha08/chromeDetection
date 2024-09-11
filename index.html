@@ -56,6 +56,7 @@
 
   <!-- Main Content -->
   <div class="content" ng-controller="MainController" ng-cloak>
+    <h1 ng-if="showApp">welcome to my application</h1>
     <h1>Chrome Browser : {{isChrome}}</h1>
     <h1>isChromeiOS : {{isChromeiOS}}</h1>
     <h1>isChromeAndroid : {{isChromeAndroid}}</h1>
@@ -94,8 +95,10 @@
         var isBrave = !!navigator.brave;
         var isSafari = userAgent.includes("safari") && !userAgent.includes("chrome");
 
+        var returnValue =  (isChrome || isChromeiOS || isChromeAndroid || isChromeOniPhone()) && !isEdge && !isOpera && !isBrave && !isSafari;
+        $scope.showApp = returnValue;
         // Return true if it's Chrome on desktop, iOS, or Android, and exclude other browsers
-        return (isChrome || isChromeiOS || isChromeAndroid || isChromeOniPhone()) && !isEdge && !isOpera && !isBrave && !isSafari;
+        return returnValue;
       }
 
       function isChrome() {
