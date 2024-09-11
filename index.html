@@ -61,6 +61,7 @@
     <h1>isChromeAndroid : {{isChromeAndroid}}</h1>
 
     <h1>{{msg}}</h1>
+    <h1 style="color: rgb(126, 25, 25);">{{imsg}}</h1>
 
   </div>
 
@@ -112,6 +113,22 @@
         console.log('This is not Google Chrome');
         $scope.msg = "This is not Google Chrome";
       }
+
+      function isChromeOniPhone() {
+        const userAgent = navigator.userAgent;
+
+        // Check if the user agent contains 'CriOS' which indicates Chrome on iOS
+        return /CriOS/.test(userAgent);
+      }
+
+      if (isChromeOniPhone()) {
+        console.log('This is Google Chrome on iPhone');
+        $scope.imsg = "This is Google Chrome on iPhone";
+      } else {
+        console.log('This is not Google Chrome on iPhone');
+        $scope.imsg = "This is not Google Chrome on iPhone";
+      }
+
 
 
       // Assign the result of isChromeBrowser to the scope variable
