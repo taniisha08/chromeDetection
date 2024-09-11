@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -50,6 +51,7 @@
     }
   </style>
 </head>
+
 <body ng-app="myApp">
 
   <!-- Main Content -->
@@ -57,6 +59,8 @@
     <h1>Chrome Browser : {{isChrome}}</h1>
     <h1>isChromeiOS : {{isChromeiOS}}</h1>
     <h1>isChromeAndroid : {{isChromeAndroid}}</h1>
+
+    <h1>{{msg}}</h1>
 
   </div>
 
@@ -70,7 +74,7 @@
   <script>
     var app = angular.module('myApp', []);
 
-    app.controller('MainController', function($scope) {
+    app.controller('MainController', function ($scope) {
       // Detect if the browser is Chrome
       function isChromeBrowser() {
         var userAgent = navigator.userAgent.toLowerCase();
@@ -93,9 +97,27 @@
         return (isChrome || isChromeiOS || isChromeAndroid) && !isEdge && !isOpera && !isBrave && !isSafari;
       }
 
+      function isChrome() {
+        // Get the user agent string
+        const userAgent = navigator.userAgent;
+
+        // Check if the user agent contains 'Chrome' and does not contain 'Edge' or 'Opera'
+        return /Chrome/.test(userAgent) && !/Edge/.test(userAgent) && !/Opera/.test(userAgent);
+      }
+
+      if (isChrome()) {
+        console.log('This is Google Chrome');
+        $scope.msg = "This is Google Chrome";
+      } else {
+        console.log('This is not Google Chrome');
+        $scope.msg = "This is not Google Chrome";
+      }
+
+
       // Assign the result of isChromeBrowser to the scope variable
       $scope.isChrome = isChromeBrowser();
     });
   </script>
 </body>
+
 </html>
