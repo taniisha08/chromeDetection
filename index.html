@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chrome Browser Check</title>
+  <style>
+    /* General Styling */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Main Content Styling */
+    .content {
+      flex: 1;
+    }
+
+    /* Footer Styling */
+    #browser-warning {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      /* background-color: #ffcccc; */
+      color: #333;
+      text-align: center;
+      padding: 20px;
+      font-size: 16px;
+      box-shadow: 0px -2px 6px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+
+    #browser-warning a {
+      color: #007bff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    #browser-warning a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body ng-app="myApp">
+
+  <div class="content" ng-controller="MainController">
+    <h1>Welcome to My Application</h1>
+    <!-- Your AngularJS application content goes here -->
+  </div>
+
+  <!-- Footer with Warning Message -->
+  <footer id="browser-warning">
+    This application only works in Google Chrome.
+    <a href="https://www.google.com/chrome/" target="_blank">Download Chrome</a>
+  </footer>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script>
+    var app = angular.module('myApp', []);
+
+    app.controller('MainController', function($scope) {
+      // Detect if the browser is Chrome
+      function isChromeBrowser() {
+        var userAgent = navigator.userAgent.toLowerCase();
+        var vendor = navigator.vendor.toLowerCase();
+
+        // Check if it's Chrome (desktop and mobile)
+        var isChrome = userAgent.includes("chrome") && vendor.includes("google");
+        var isMobileChrome = userAgent.includes("crios") || (userAgent.includes("chrome") && /android|iphone|ipad|ipod/.test(userAgent));
+
+        // Exclude Edge, Brave, Opera, Safari, etc.
+        var isEdge = userAgent.includes("edg");
+        var isOpera = userAgent.includes("opr") || userAgent.includes("opera");
+        var isBrave = !!navigator.brave;
+        var isSafari = userAgent.includes("safari") && !userAgent.includes("chrome");
+
+        return (isChrome || isMobileChrome) && !isEdge && !isOpera && !isBrave && !isSafari;
+      }
+
+      // Show warning message if not Chrome
+      function showBrowserWarning() {
+        var warningElement = document.getElementById('browser-warning');
+        if (!isChromeBrowser()) {
+          warningElement.style.display = 'block';
+        }
+      }
+
+      // Run the check on page load
+      showBrowserWarning();
+    });
+  </script>
+</body>
+</html>
