@@ -95,7 +95,7 @@
         var isSafari = userAgent.includes("safari") && !userAgent.includes("chrome");
 
         // Return true if it's Chrome on desktop, iOS, or Android, and exclude other browsers
-        return (isChrome || isChromeiOS || isChromeAndroid) && !isEdge && !isOpera && !isBrave && !isSafari;
+        return (isChrome || isChromeiOS || isChromeAndroid || isChromeOniPhone()) && !isEdge && !isOpera && !isBrave && !isSafari;
       }
 
       function isChrome() {
